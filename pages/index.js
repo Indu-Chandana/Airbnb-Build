@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
+import MediumCard from '../components/MediumCard';
 import SmallCards from '../components/SmallCards';
 
-export default function Home({ exploreData }) {
+export default function Home({ exploreData, cardData }) {
   return (
     <div>
       <Head>
@@ -31,6 +32,17 @@ export default function Home({ exploreData }) {
 
         <section>
           <h2 className="text-4xl font-semibold py-8">Live Anywhere</h2>
+                  {/* we add scroll bar hide plugging for tailwind */}
+          <div className="flex space-x-3 overflow-scroll scrollbar-hide">
+            {cardData?.map((item) => (
+              <MediumCard 
+              key={item.img}
+              img={item.img}
+              title={item.title}
+              />
+            ))}
+          </div>
+          
         </section>
       </main>
 
@@ -45,7 +57,7 @@ export async function getStaticProps(){
   );
 
   const cardData = await fetch("https://links.papareact.com/zp1").then(
-    (res) = req.json()
+    (res) => res.json()
   );
 
   return {
