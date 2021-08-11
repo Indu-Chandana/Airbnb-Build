@@ -1,10 +1,12 @@
-import { format } from "date-fns/esm";
+import { format } from "date-fns";
 import { useRouter } from "next/dist/client/router";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function Search() {
+function Search({searchResults}) {
     const router = useRouter();
+
+    console.log(searchResults)
 
     // How to grab those variable from search url. we use router.query
     // ES6 Destructuring
@@ -40,3 +42,27 @@ function Search() {
 }
 
 export default Search
+
+export async function getServerSideProps(){
+    const searchResults = await fetch("https://links.papareact.com/isz")
+    .then(
+        (res) => res.json()
+    );
+
+    return {
+        props: {
+            searchResults,
+        }
+    }
+}
+
+// export async function getServerSideProps() {
+//     const searchResults = await fetch("https://links.papareact.com/isz")
+//     .then((res) => res.json())
+
+//     return{
+//         props: {
+//             searchResults,
+//         },
+//     };
+// }
